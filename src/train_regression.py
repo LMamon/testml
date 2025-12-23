@@ -1,7 +1,7 @@
 import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score
 
 from utils import load_standard_data, load_biased_data
@@ -18,7 +18,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, rando
 
 model = Pipeline(steps=[
     ('preprocessor', preprocessor),
-    ('regressor', RandomForestClassifier(n_estimators = 100, random_state = 42))
+    ('regressor', RandomForestRegressor(n_estimators = 100, random_state = 42))
 ])
 
 model.fit(X_train, y_train)

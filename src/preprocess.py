@@ -1,9 +1,12 @@
+import os
+import joblib
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.impute import SimpleImputer
 
 def preprocess_data(df, target_cols):
+    os.makedirs("models", exist_ok=True)
     X = df.drop(columns=target_cols)
 
     numeric_features = X.select.dtypes(include=['int64', 'float64']).columns
@@ -14,9 +17,10 @@ def preprocess_data(df, target_cols):
 
     preprocessor = ColumnTransformer(
         transformers=[
-            ('num', StandardScaler(), num_cols),
-            ('cat', categorical_pipeline, cat_cols),
+            ('num', StandardScaler(), numeric_features),
+            ('cat', categorical_pipeline, categorical_features),
         ]
     )
-
+    
+    joblib.dump(preprocessor, "models/preprocessors.joblib")
     return preprocessor, X
